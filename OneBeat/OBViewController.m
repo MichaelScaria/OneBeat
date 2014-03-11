@@ -8,6 +8,8 @@
 
 #import "OBViewController.h"
 
+#import "SERVICES.h"
+
 @interface OBViewController ()
 
 @end
@@ -17,6 +19,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    value = 0; increment = 1;
 	NSURL *url = [NSURL fileURLWithPath:@"/dev/null"];
     
   	NSDictionary *settings = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -40,19 +43,36 @@
   	} else
   		NSLog([error description]);
 
-    _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-    _data = [[NSMutableData alloc] init];
+//    _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+//    _data = [[NSMutableData alloc] init];
 }
 
 - (void)levelTimerCallback:(NSTimer *)timer {
 	[recorder updateMeters];
 	NSLog(@"Average input: %f Peak input: %f", [recorder averagePowerForChannel:0], [recorder peakPowerForChannel:0]);
+    value += increment;
+    self.view.backgroundColor = [UIColor colorWithRed:(value > 255) ? 1 : value/255.0 green:(value > 510) ? 1 : (value - 255)/255.0 blue:(value >= 765) ? 1 : (value - 510)/255.0 alpha:1];
+//    if (value <=255) analogWrite( red, value);
+//    else if (value <=310) analogWrite( green, value);
+//    else analogWrite(blue, value);
+    if (abs(value - 382.5) >= 382.5) increment *= -1;
 }
+
+/*
 
 #pragma mark - CoreBluetooth
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central {
+    // You should test all scenarios
+    if (central.state != CBCentralManagerStatePoweredOn) {
+        return;
+    }
     
+    if (central.state == CBCentralManagerStatePoweredOn) {
+        // Scan for devices
+        [_centralManager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:TRANSFER_SERVICE_UUID]] options:@{ CBCentralManagerScanOptionAllowDuplicatesKey : @YES }];
+        NSLog(@"Scanning started");
+    }
 }
 
 
@@ -108,6 +128,31 @@
     
     [peripheral discoverServices:@[[CBUUID UUIDWithString:TRANSFER_SERVICE_UUID]]];
 }
+
+- (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error {
+    if (error) {
+        [self cleanup];
+        return;
+    }
+    
+    for (CBService *service in peripheral.services) {
+        [peripheral discoverCharacteristics:@[[CBUUID UUIDWithString:TRANSFER_CHARACTERISTIC_UUID]] forService:service];
+    }
+    // Discover other characteristics
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error {
+    if (error) {
+        [self cleanup];
+        return;
+    }
+    
+    for (CBCharacteristic *characteristic in service.characteristics) {
+        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:TRANSFER_CHARACTERISTIC_UUID]]) {
+            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+        }
+    }
+}*/
 
 
 @end
