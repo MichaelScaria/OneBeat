@@ -70,5 +70,44 @@
     }
 }
 
+- (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
+    NSLog(@"Failed to connect");
+    [self cleanup];
+}
+
+- (void)cleanup {
+    
+    // See if we are subscribed to a characteristic on the peripheral
+    if (_discoveredPeripheral.services != nil) {
+        for (CBService *service in _discoveredPeripheral.services) {
+            if (service.characteristics != nil) {
+                for (CBCharacteristic *characteristic in service.characteristics) {
+                    if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:TRANSFER_CHARACTERISTIC_UUID]]) {
+                        if (characteristic.isNotifying) {
+                            [_discoveredPeripheral setNotifyValue:NO forCharacteristic:characteristic];
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    [_centralManager cancelPeripheralConnection:_discoveredPeripheral];
+}
+
+- (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
+    NSLog(@"Connected");
+    
+    [_centralManager stopScan];
+    NSLog(@"Scanning stopped");
+    
+    [_data setLength:0];
+    
+    peripheral.delegate = self;
+    
+    [peripheral discoverServices:@[[CBUUID UUIDWithString:TRANSFER_SERVICE_UUID]]];
+}
+
 
 @end

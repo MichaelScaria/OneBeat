@@ -57,6 +57,7 @@
 		9EBC098118CF98D900985D85 /* OneBeatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OneBeatTests.m; sourceTree = "<group>"; };
 		9EBC098B18CF993C00985D85 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		9EEF828718CFBF690006DE29 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		9EEF828918CFC2BA0006DE29 /* SERVICES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SERVICES.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +126,7 @@
 				9EBC096818CF98D900985D85 /* Main.storyboard */,
 				9EBC096B18CF98D900985D85 /* OBViewController.h */,
 				9EBC096C18CF98D900985D85 /* OBViewController.m */,
+				9EEF828918CFC2BA0006DE29 /* SERVICES.h */,
 				9EBC096E18CF98D900985D85 /* Images.xcassets */,
 				9EBC095D18CF98D900985D85 /* Supporting Files */,
 			);
