@@ -39,41 +39,9 @@
 		levelTimer = [NSTimer scheduledTimerWithTimeInterval: 0.03 target: self selector: @selector(levelTimerCallback:) userInfo: nil repeats: YES];
   	} else
   		NSLog([error description]);
-    /*NSURL *url = [NSURL fileURLWithPath:@"/dev/null"];
-    
-    NSDictionary *recordSettings = [NSDictionary
-                                    dictionaryWithObjectsAndKeys:
-                                    [NSNumber numberWithInt:AVAudioQualityMin],
-                                    AVEncoderAudioQualityKey,
-                                    [NSNumber numberWithInt:16],
-                                    AVEncoderBitRateKey,
-                                    [NSNumber numberWithInt: 2],
-                                    AVNumberOfChannelsKey,
-                                    [NSNumber numberWithFloat:44100.0],
-                                    AVSampleRateKey,
-                                    nil];
-    
-    NSError *error = nil;
-    
-    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-    [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord
-                        error:nil];
-    
-    recorder = [[AVAudioRecorder alloc]
-                      initWithURL:url
-                      settings:recordSettings
-                      error:&error];
-    
-    if (error)
-    {
-        NSLog(@"error: %@", [error localizedDescription]);
-    } else {
-        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error:&error];
-        [recorder prepareToRecord];
-        recorder.meteringEnabled = YES;
-  		[recorder record];
-		levelTimer = [NSTimer scheduledTimerWithTimeInterval: 0.03 target: self selector: @selector(levelTimerCallback:) userInfo: nil repeats: YES];
-    }*/
+
+    _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+    _data = [[NSMutableData alloc] init];
 }
 
 - (void)levelTimerCallback:(NSTimer *)timer {
@@ -81,6 +49,26 @@
 	NSLog(@"Average input: %f Peak input: %f", [recorder averagePowerForChannel:0], [recorder peakPowerForChannel:0]);
 }
 
+#pragma mark - CoreBluetooth
+
+- (void)centralManagerDidUpdateState:(CBCentralManager *)central {
+    
+}
+
+
+- (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI {
+    
+    NSLog(@"Discovered %@ at %@", peripheral.name, RSSI);
+    
+    if (_discoveredPeripheral != peripheral) {
+        // Save a local copy of the peripheral, so CoreBluetooth doesn't get rid of it
+        _discoveredPeripheral = peripheral;
+        
+        // And connect
+        NSLog(@"Connecting to peripheral %@", peripheral);
+        [_centralManager connectPeripheral:peripheral options:nil];
+    }
+}
 
 
 @end

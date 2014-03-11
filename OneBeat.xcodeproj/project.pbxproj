@@ -22,6 +22,7 @@
 		9EBC098018CF98D900985D85 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9EBC097E18CF98D900985D85 /* InfoPlist.strings */; };
 		9EBC098218CF98D900985D85 /* OneBeatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EBC098118CF98D900985D85 /* OneBeatTests.m */; };
 		9EBC098C18CF993C00985D85 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EBC098B18CF993C00985D85 /* AVFoundation.framework */; };
+		9EEF828818CFBF690006DE29 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EEF828718CFBF690006DE29 /* CoreBluetooth.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		9EBC097F18CF98D900985D85 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9EBC098118CF98D900985D85 /* OneBeatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OneBeatTests.m; sourceTree = "<group>"; };
 		9EBC098B18CF993C00985D85 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		9EEF828718CFBF690006DE29 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9EEF828818CFBF690006DE29 /* CoreBluetooth.framework in Frameworks */,
 				9EBC098C18CF993C00985D85 /* AVFoundation.framework in Frameworks */,
 				9EBC095918CF98D900985D85 /* CoreGraphics.framework in Frameworks */,
 				9EBC095B18CF98D900985D85 /* UIKit.framework in Frameworks */,
@@ -104,6 +107,7 @@
 		9EBC095518CF98D900985D85 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9EEF828718CFBF690006DE29 /* CoreBluetooth.framework */,
 				9EBC098B18CF993C00985D85 /* AVFoundation.framework */,
 				9EBC095618CF98D900985D85 /* Foundation.framework */,
 				9EBC095818CF98D900985D85 /* CoreGraphics.framework */,
@@ -465,6 +469,7 @@
 				9EBC098718CF98D900985D85 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9EBC098818CF98D900985D85 /* Build configuration list for PBXNativeTarget "OneBeatTests" */ = {
 			isa = XCConfigurationList;
@@ -473,6 +478,7 @@
 				9EBC098A18CF98D900985D85 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

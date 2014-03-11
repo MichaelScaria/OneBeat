@@ -10,10 +10,15 @@
 
 @import AVFoundation;
 @import CoreAudio;
+@import CoreBluetooth;
 
-@interface OBViewController : UIViewController <AVAudioRecorderDelegate>{
+@interface OBViewController : UIViewController <AVAudioRecorderDelegate, CBCentralManagerDelegate>{
     AVAudioRecorder *recorder;
     NSTimer *levelTimer;
 }
+
+@property (strong, nonatomic) CBCentralManager *centralManager;
+@property (strong, nonatomic) CBPeripheral *discoveredPeripheral;
+@property (strong, nonatomic) NSMutableData *data;
 
 @end
