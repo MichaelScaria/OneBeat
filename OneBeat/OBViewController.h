@@ -11,7 +11,7 @@
 @import AVFoundation;
 @import CoreAudio;
 
-@interface OBViewController : UIViewController {
+@interface OBViewController : UIViewController <AVAudioRecorderDelegate>{
     AVAudioRecorder *recorder;
     NSTimer *levelTimer;
 }

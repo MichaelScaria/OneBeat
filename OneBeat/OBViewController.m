@@ -31,12 +31,49 @@
   	recorder = [[AVAudioRecorder alloc] initWithURL:url settings:settings error:&error];
     
   	if (recorder) {
+        NSError *categoryError;
+        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error:&categoryError ];
   		[recorder prepareToRecord];
   		recorder.meteringEnabled = YES;
   		[recorder record];
 		levelTimer = [NSTimer scheduledTimerWithTimeInterval: 0.03 target: self selector: @selector(levelTimerCallback:) userInfo: nil repeats: YES];
   	} else
   		NSLog([error description]);
+    /*NSURL *url = [NSURL fileURLWithPath:@"/dev/null"];
+    
+    NSDictionary *recordSettings = [NSDictionary
+                                    dictionaryWithObjectsAndKeys:
+                                    [NSNumber numberWithInt:AVAudioQualityMin],
+                                    AVEncoderAudioQualityKey,
+                                    [NSNumber numberWithInt:16],
+                                    AVEncoderBitRateKey,
+                                    [NSNumber numberWithInt: 2],
+                                    AVNumberOfChannelsKey,
+                                    [NSNumber numberWithFloat:44100.0],
+                                    AVSampleRateKey,
+                                    nil];
+    
+    NSError *error = nil;
+    
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord
+                        error:nil];
+    
+    recorder = [[AVAudioRecorder alloc]
+                      initWithURL:url
+                      settings:recordSettings
+                      error:&error];
+    
+    if (error)
+    {
+        NSLog(@"error: %@", [error localizedDescription]);
+    } else {
+        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error:&error];
+        [recorder prepareToRecord];
+        recorder.meteringEnabled = YES;
+  		[recorder record];
+		levelTimer = [NSTimer scheduledTimerWithTimeInterval: 0.03 target: self selector: @selector(levelTimerCallback:) userInfo: nil repeats: YES];
+    }*/
 }
 
 - (void)levelTimerCallback:(NSTimer *)timer {
