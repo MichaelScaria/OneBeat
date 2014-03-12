@@ -39,7 +39,7 @@
   		[recorder prepareToRecord];
   		recorder.meteringEnabled = YES;
   		[recorder record];
-		levelTimer = [NSTimer scheduledTimerWithTimeInterval: 0.03 target: self selector: @selector(levelTimerCallback:) userInfo: nil repeats: YES];
+		levelTimer = [NSTimer scheduledTimerWithTimeInterval: 0.08 target: self selector: @selector(levelTimerCallback:) userInfo: nil repeats: YES];
   	} else
   		NSLog([error description]);
 
@@ -49,9 +49,14 @@
 
 - (void)levelTimerCallback:(NSTimer *)timer {
 	[recorder updateMeters];
-	NSLog(@"Average input: %f Peak input: %f", [recorder averagePowerForChannel:0], [recorder peakPowerForChannel:0]);
+//	NSLog(@"Average input: %f Peak input: %f", [recorder averagePowerForChannel:0], [recorder peakPowerForChannel:0]);
+    float db = 20 * log10(abs([recorder averagePowerForChannel:0]));
+    db /= 25;
+    NSLog(@"DB:%f", db);
+    float alpha = 1 - ((12 - [recorder peakPowerForChannel:0])/100);
+//    NSLog(@"Alpha:%f", alpha);
     value += increment;
-    self.view.backgroundColor = [UIColor colorWithRed:(value > 255) ? 1 : value/255.0 green:(value > 510) ? 1 : (value - 255)/255.0 blue:(value >= 765) ? 1 : (value - 510)/255.0 alpha:1];
+    self.view.backgroundColor = [UIColor colorWithRed:(value > 255) ? 1 : value/255.0 green:(value > 510) ? 1 : (value - 255)/255.0 blue:(value >= 765) ? 1 : (value - 510)/255.0 alpha:1-db];
 //    if (value <=255) analogWrite( red, value);
 //    else if (value <=310) analogWrite( green, value);
 //    else analogWrite(blue, value);
